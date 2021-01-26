@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello! Make A Wish Page!</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h2>Hello {{request.session.first_name}}! Make a wish!</h2>
+    {% if messages %}
+    <ul>    
+        {% for message in messages %}    
+        <li>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="stats">
+        <a href="/wishes">Dashboard</a>
+    </div>
+    <form action="/create_wish" method="POST">
+        {% csrf_token %}
+        <p>I wish for:</p>
+        <input type="text" name="item"><br>
+        <p>Description:</p>
+        <input type="text" name="description"><br><br>
+        <div class="stats">
+            <a href="/wishes">Cancel</a>
+        </div>
+        <input type="submit" value="Submit">       
+    </form>
+</body>
+</html>
+

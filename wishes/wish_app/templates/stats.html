@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <h2>Hello, {{request.session.first_name}}! These are your stats!</h2>
+
+    <div class="stats">
+        <a href="/wishes">Dashboard</a>
+    </div>
+    <div class="stats"></div>
+        <a href="/logout">Log Out</a>
+    </div>
+    <h3>Total wishes granted so far for all users: {{ user_count }}</h3>
+
+    <h4>Your granted wishes: {{ wishlist }}</h4>
+    <h4>Your pending wishes: {{ pending }}</h4>
+</body>
+</html>
+
+
+
+
+
+
+

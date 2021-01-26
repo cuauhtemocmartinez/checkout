@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wish Page</title>
+    {% load static %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="container">
+    <div id="header">
+        <h2>Hello, {{request.session.first_name}}</h2>
+        <div class="stats">
+            <a href="/logout">Log Out</a>
+        </div>  
+        <div class="stats">
+            <a href="/stats">View stats</a>
+        </div>
+        <div class="stats">
+            <a href="/wishes/new">Make a wish!</a>
+        </div>
+    </div><br>
+    <div>
+        <h2>Your wish list:</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Date added</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for wish in all_wishes %}
+                <tr>
+                    {% if request.session.user_id == wish.poster.id %}
+                    <td scope="row">{{wish.item}}</td>
+                    <td scope="row">{{wish.created_at.date}}</td>
+                    <td scope="row">
+                        <ul>
+                            <li><a href="/wishes/delete/{{wish.id}}"><h3>Remove</h3></a></li>
+                            <li><p> | </p></li>
+                            <li><a href="/wishes/edit/{{wish.id}}"><h3>Edit</h3></a></li>
+                            <li><p> | </p></li>
+                            <li>
+                                <form action="/granted_wish/{{wish.id}}">
+                                    {% csrf_token %}
+                                    <input type="submit" value="Granted!">
+                                </form>
+                            </li>
+                        </ul>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Granted wishes:</h2>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Wisher</th>
+                    <th scope="col">Date added</th>
+                    <th scope="col">Date Granted</th>
+                    <th scope="col">Likes</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    {% for wishes in wishlist %}
+                    <td>{{wishes.message.item}}</td>
+                    <td>{{wishes.poster.first_name}}</td>
+                    <td>{{wishes.created_at.date}}</td>
+                    <td>{{wishes.updated_at.date}}</td>
+                    <td>{{wishes.message.likes.count}}</td>
+                    {% if request.session.user_id != wishes.poster.id %}
+                    <td><a href="/like/{{wishes.id}}">Like</a></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    </div>
+</body>
+</html>

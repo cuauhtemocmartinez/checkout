@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Registration</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+<body>
+    <div id="wrapper">
+    
+    {% if messages %}
+    <ul>    
+        {% for message in messages %}    
+        <li>{{ message }}</li>    
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <h1>Welcome! Sign in to make a wish!</h1>
+    <div class="form">
+        <h3>Register</h3>
+        <form action="/register" method="POST">
+            {% csrf_token %}
+            <p>First Name</p>
+            <input type="text" name="first_name">
+            <p>Last Name</p>
+            <input type="text" name="last_name">
+            <p>Email</p>
+            <input type="text" name="email">
+            <p>Password</p>
+                <input type="text" name="password">
+                <p>Confirm PW</p>
+                <input type="text" name="confirm_password"><br><br>
+                <input type="submit" value="Register">       
+            </form>
+        </div>
+        <div class="form">
+            <h3>Login</h3>
+            <form action="/login" method="POST">
+                {% csrf_token %}
+                <p>Email</p>
+                <input type="text" name="email">
+                <p>Password</p>
+                <input type="text" name="password"><br><br>
+                <input type="submit" value="Login">       
+            </form>
+        </div>
+    </div>
+</body>
+</html>
